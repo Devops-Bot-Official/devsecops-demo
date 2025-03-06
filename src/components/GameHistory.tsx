@@ -1,4 +1,3 @@
-import React from 'react';
 import { History, Clock } from 'lucide-react';
 
 interface GameHistoryProps {
@@ -21,10 +20,7 @@ const GameHistory: React.FC<GameHistoryProps> = ({ history }) => {
 
   // Get result text based on winner
   const getResultText = (winner: string | null) => {
-    if (winner) {
-      return `Player ${winner} won`;
-    }
-    return "Draw";
+    return winner ? `Player ${winner} won` : "Draw";
   };
 
   // Get appropriate color class based on winner
@@ -35,33 +31,27 @@ const GameHistory: React.FC<GameHistoryProps> = ({ history }) => {
   };
 
   return (
-    <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
-        <History className="h-5 w-5 text-blue-500" />
-        Game History
+    <div data-testid="game-history" className="p-4 bg-gray-100 rounded-lg shadow-md">
+      <h2 className="text-lg font-bold flex items-center gap-2">
+        <History className="w-5 h-5" /> Game History
       </h2>
-      
-      <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
-        {history.length === 0 ? (
-          <p className="text-gray-500 text-sm italic">No games played yet</p>
-        ) : (
-          [...history].reverse().map((game, index) => (
-            <div key={index} className="p-2 bg-white rounded border border-gray-200 text-sm">
-              <div className="flex justify-between items-center mb-1">
-                <span className={`font-medium ${getResultColorClass(game.winner)}`}>
-                  {getResultText(game.winner)}
-                </span>
-                <span className="text-gray-500 flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {formatDate(game.date)}
-                </span>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+      {history.length === 0 ? (
+        <p className="text-gray-500">No game history available.</p>
+      ) : (
+        <ul className="mt-2 space-y-2">
+          {history.map((game, index) => (
+            <li key={index} className={`p-2 rounded-md ${getResultColorClass(game.winner)}`}>
+              <span className="block font-semibold">{getResultText(game.winner)}</span>
+              <span className="flex items-center gap-1 text-sm text-gray-500">
+                <Clock className="w-4 h-4" /> {formatDate(game.date)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
 
 export default GameHistory;
+

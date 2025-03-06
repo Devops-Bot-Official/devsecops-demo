@@ -10,7 +10,7 @@ interface BoardProps {
 const Board: React.FC<BoardProps> = ({ squares, onClick, winningLine }) => {
   const renderSquare = (i: number) => {
     const isWinningSquare = winningLine?.includes(i) || false;
-    
+
     return (
       <Square
         value={squares[i]}
@@ -21,8 +21,8 @@ const Board: React.FC<BoardProps> = ({ squares, onClick, winningLine }) => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-2 w-full max-w-xs">
-      {Array(9).fill(null).map((_, i) => (
+    <div className="grid grid-cols-3 gap-2 w-full max-w-xs" data-testid="board"> 
+      {Array.from({ length: 9 }).map((_, i) => (  // ✅ More readable way to generate 9 squares
         <div key={i}>
           {renderSquare(i)}
         </div>
@@ -32,3 +32,4 @@ const Board: React.FC<BoardProps> = ({ squares, onClick, winningLine }) => {
 };
 
 export default Board;
+

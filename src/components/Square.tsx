@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface SquareProps {
   value: string | null;
   onClick: () => void;
@@ -8,26 +6,27 @@ interface SquareProps {
 
 const Square: React.FC<SquareProps> = ({ value, onClick, isWinningSquare }) => {
   const baseClasses = "w-full h-20 text-4xl font-bold flex items-center justify-center rounded-md transition-all duration-200";
-  
+
   // Different styling based on value and winning status
   const getSquareClasses = () => {
     if (isWinningSquare) {
       return `${baseClasses} bg-green-200 text-green-800 border-2 border-green-500`;
     }
-    
+
     if (!value) {
       return `${baseClasses} bg-gray-100 hover:bg-gray-200 cursor-pointer`;
     }
-    
+
     if (value === 'X') {
       return `${baseClasses} bg-indigo-100 text-indigo-600`;
     }
-    
+
     return `${baseClasses} bg-purple-100 text-purple-600`;
   };
 
   return (
-    <button 
+    <button
+      data-testid="square"  // ✅ Added missing test ID
       className={getSquareClasses()}
       onClick={onClick}
       aria-label={value ? `Square with ${value}` : "Empty square"}
@@ -38,3 +37,4 @@ const Square: React.FC<SquareProps> = ({ value, onClick, isWinningSquare }) => {
 };
 
 export default Square;
+
